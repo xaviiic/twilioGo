@@ -18,8 +18,8 @@ import (
 
 ## Usage
 
-#### Access Token
-> [Access Tokens are short-lived tokens that you can use to authenticate Twilio Client SDKs like Video and IP Messaging. You create them on your server to verify a client's identity and grant access to client API features.][1]
+### Access Token
+> [Access Tokens][1] are short-lived tokens that you can use to authenticate Twilio Client SDKs like Video and IP Messaging. You create them on your server to verify a client's identity and grant access to client API features.
 
 To create an access token, pass the Twilio API account information first.
 ```go
@@ -39,8 +39,8 @@ Then transform token to JWT format for client side usages.
 jwt, err := token.ToJWT()
 ```
 
-#### Capability Token
-> [Capability tokens allow you to add Twilio capabilities to web and mobile applications without exposing your AuthToken in JavaScript or any other client-side environment.][2]
+### Capability Token
+> [Capability tokens][2] allow you to add Twilio capabilities to web and mobile applications without exposing your AuthToken in JavaScript or any other client-side environment.
 
 Create a capability token instance first with API account information.
 ```go
@@ -55,7 +55,7 @@ capability.AllowClientOutgoing(appID, nil)
 jwt, err := capability.ToJWT()
 ```
 
-#### Chaining
+### Chaining
 Generating token steps can be chained together.
 ```go
 token, err := twilio.NewAccessToken(accountSid, apiKey, apiSecret).
