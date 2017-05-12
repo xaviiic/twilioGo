@@ -33,6 +33,30 @@ func (g *conversationGrant) Payload() interface{} {
 	}
 }
 
+// NewVideoGrant creates a new video grant for twilio video conversation service.
+func NewVideoGrant(room string) Grant {
+	return &videoGrant{room: room}
+}
+
+// twilio video grant
+type videoGrant struct {
+	room string
+}
+
+// Key implements Grant interface.
+func (g *videoGrant) Key() string {
+	return "video"
+}
+
+// Payload implements Grant interface.
+func (g *videoGrant) Payload() interface{} {
+	return struct {
+		Room string `json:"room,omitempty"`
+	}{
+		Room: g.room,
+	}
+}
+
 // NewIPMessagingGrant creates a new permission for twilio ip messaging service.
 func NewIPMessagingGrant(serviceSid, endpointID, deploymentRoleSid, pushCredentialSid string) Grant {
 	return &ipMessagingGrant{
