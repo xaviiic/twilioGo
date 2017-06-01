@@ -33,6 +33,10 @@ Once you have created a token instance, you can add access grant with desired AP
 // grant token access to progammable video API
 grant := twilio.NewConversationGrant(configurationProfileID)
 token.AddGrant(grant)
+
+// grant token access to video API
+grant := twiliogo.NewVideoGrant(room)
+token.AddGrant(grant)
 ```
 Then transform token to JWT format for client side usages.
 ```go
