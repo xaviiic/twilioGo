@@ -9,6 +9,44 @@ type Grant interface {
 	Payload() interface{}
 }
 
+// NewChatGrant creates a new permission grant for twilio chat service.
+func NewChatGrant(serviceSid, endpointID, deploymentRoleSid, pushCredentialSid string) Grant {
+	return &chatGrant{
+		serviceSid:        serviceSid,
+		endpointID:        endpointID,
+		deploymentRoleSid: deploymentRoleSid,
+		pushCredentialSid: pushCredentialSid,
+	}
+}
+
+// twilio chat grant
+type chatGrant struct {
+	serviceSid        string
+	endpointID        string
+	deploymentRoleSid string
+	pushCredentialSid string
+}
+
+// Key implements Grant interface.
+func (g *chatGrant) Key() string {
+	return "chat"
+}
+
+// Payload implements Grant interface.
+func (g *chatGrant) Payload() interface{} {
+	return struct {
+		ServiceSid        string `json:"service_sid,omitempty"`
+		EndpointID        string `json:"endpoint_id,omitempty"`
+		DeploymentRoleSid string `json:"deployment_role_sid,omitempty"`
+		PushCredentialSid string `json:"push_credential_sid,omitempty"`
+	}{
+		ServiceSid:        g.serviceSid,
+		EndpointID:        g.endpointID,
+		DeploymentRoleSid: g.deploymentRoleSid,
+		PushCredentialSid: g.pushCredentialSid,
+	}
+}
+
 // NewConversationGrant creates a new permission grant for twilio video conversation service.
 func NewConversationGrant(sid string) Grant {
 	return &conversationGrant{sid: sid}
