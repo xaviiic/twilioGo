@@ -9,6 +9,56 @@ type Grant interface {
 	Payload() interface{}
 }
 
+// NewVoiceGrant creates a new permission grant for twilio programmable voice SDK
+func NewVoiceGrant(ApplicationSid, PushCredentialSid, EndpointID string, AllowIncoming bool, ApplicationParams map[string]interface{}) Grant {
+	return &voiceGrant{
+		allowIncoming:             AllowIncoming,
+		outgoingApplicationSid:    ApplicationSid,
+		outgoingApplicationParams: ApplicationParams,
+		pushCredentialSid:         PushCredentialSid,
+		endpointID:                EndpointID,
+	}
+}
+
+// twilio voice grant
+type voiceGrant struct {
+	allowIncoming             bool
+	outgoingApplicationSid    string
+	outgoingApplicationParams map[string]interface{}
+	pushCredentialSid         string
+	endpointID                string
+}
+
+// Key implements Grant interface.
+func (g *voiceGrant) Key() string {
+	return "voice"
+}
+
+// Payload implements Grant interface.
+func (g *voiceGrant) Payload() interface{} {
+	return struct {
+		Incoming          interface{} `json:"incoming,omitempty"`
+		Outgoing          interface{} `json:"outgoing,omitempty"`
+		PushCredentialSid string      `json:"push_credential_sid,omitempty"`
+		EndpointID        string      `json:"endpoint_id,omitempty"`
+	}{
+		Incoming: struct {
+			Allow bool `json:"allow,omitempty"`
+		}{
+			Allow: g.allowIncoming,
+		},
+		Outgoing: struct {
+			ApplicationSid    string                 `json:"application_sid,omitempty"`
+			ApplicationParams map[string]interface{} `json:"params,omitempty"`
+		}{
+			ApplicationSid:    g.outgoingApplicationSid,
+			ApplicationParams: g.outgoingApplicationParams,
+		},
+		PushCredentialSid: g.pushCredentialSid,
+		EndpointID:        g.endpointID,
+	}
+}
+
 // NewChatGrant creates a new permission grant for twilio chat service.
 func NewChatGrant(serviceSid, endpointID, deploymentRoleSid, pushCredentialSid string) Grant {
 	return &chatGrant{
