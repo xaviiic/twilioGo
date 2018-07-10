@@ -10,13 +10,13 @@ type Grant interface {
 }
 
 // NewVoiceGrant creates a new permission grant for twilio programmable voice SDK
-func NewVoiceGrant(ApplicationSid, PushCredentialSid, EndpointID string, AllowIncoming bool, ApplicationParams map[string]interface{}) Grant {
+func NewVoiceGrant(applicationSid, pushCredentialSid, endpointID string, allowIncoming bool, applicationParams map[string]interface{}) Grant {
 	return &voiceGrant{
-		allowIncoming:             AllowIncoming,
-		outgoingApplicationSid:    ApplicationSid,
-		outgoingApplicationParams: ApplicationParams,
-		pushCredentialSid:         PushCredentialSid,
-		endpointID:                EndpointID,
+		allowIncoming:             allowIncoming,
+		outgoingApplicationSid:    applicationSid,
+		outgoingApplicationParams: applicationParams,
+		pushCredentialSid:         pushCredentialSid,
+		endpointID:                endpointID,
 	}
 }
 
